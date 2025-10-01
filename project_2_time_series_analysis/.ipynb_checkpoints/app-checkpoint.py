@@ -45,9 +45,14 @@ print(company_df)
 
 # 1st plot
 st.subheader(f"1. Closing Price of {selected_company} Over Time")
-fig1 = px.line(company_df, x="date", y="close", title=selected_company + " closing prices over time")
-st.plotly_chart(fig1, use_container_width=True)
+# fig1 = px.line(company_df, x="date", y="close", title=selected_company + " closing prices over time")
+# st.plotly_chart(fig1, use_container_width=True)
+chart_data = company_df.set_index('date')[['close']] 
 
+st.line_chart(
+    chart_data, 
+    use_container_width=True
+)
 
 # 2nd plot
 st.subheader("2. Moving Averages (10, 20, 50 days)")
@@ -56,18 +61,38 @@ ma_day = [10, 20, 50]
 for ma in ma_day:
     company_df['close_' + str(ma)] = company_df['close'].rolling(ma).mean()
 
-fig2 = px.line(company_df, x="date", y=["close", "close_10", "close_20", "close_50"], 
-               title=selected_company + " closing prices with moving average")
-st.plotly_chart(fig2, use_container_width=True)
+# fig2 = px.line(company_df, x="date", y=["close", "close_10", "close_20", "close_50"], 
+#                title=selected_company + " closing prices with moving average")
+# plot_df = company_df.dropna(subset=["close_10", "close_20", "close_50"])
+# fig2 = px.line(plot_df, x="date", y=["close", "close_10", "close_20", "close_50"], 
+#                    title=f"{selected_company} closing prices with moving average")
+# st.plotly_chart(fig2, use_container_width=True)
+
+# 2. Select the columns needed for the plot: the x-axis (date) and all y-axes.
+#    Then, set 'date' as the index for st.line_chart.
+chart_data = company_df.set_index('date')[["close", "close_10", "close_20", "close_50"]]
+
+# 3. Use st.line_chart to display the graph. Streamlit automatically uses 
+#    the index for the x-axis and column names for the legend/lines.
+st.line_chart(
+    chart_data,
+    use_container_width=True
+)
 
 # 3rd plot
 st.subheader(f"3. Daily returns for {selected_company}")
 company_df["Daily return in %"] = company_df['close'].pct_change()*100
 
-fig3 = px.line(company_df, x="date", y="Daily return in %", 
-               title="Daily return in %")
-st.plotly_chart(fig3, use_container_width=True)
+# fig3 = px.line(company_df, x="date", y="Daily return in %", 
+#                title="Daily return in %")
+# st.plotly_chart(fig3, use_container_width=True)
+daily_return_df = company_df.dropna(subset=["Daily return in %"])
+chart_data_daily_return = daily_return_df.set_index('date')[["Daily return in %"]]
 
+st.line_chart(
+    chart_data_daily_return,
+    use_container_width=True
+)
 
 # 4th plot
 st.subheader(f"4. Resampled Closing Price (Monthly, Quarterly, Yearly)")
@@ -82,12 +107,16 @@ elif resample_option == "Quarterly":
 else:
     resampled = company_df['close'].resample('Y').mean() 
 
-company_df["Daily return in %"] = company_df['close'].pct_change()*100
+# company_df["Daily return in %"] = company_df['close'].pct_change()*100
 
-fig4 = px.line(resampled,
-               title=f"{selected_company} {resample_option} Average Closing Price")
-st.plotly_chart(fig4, use_container_width=True)
+# fig4 = px.line(resampled,
+#                title=f"{selected_company} {resample_option} Average Closing Price")
+# st.plotly_chart(fig4, use_container_width=True)
 
+st.line_chart(
+    resampled,
+    use_container_width=True
+)
 
 # 5th plot
 aapl_data = pd.read_csv(company_list[0])
@@ -107,4 +136,3 @@ sns.heatmap(closing_price.corr(), annot=True, cmap="coolwarm", ax=ax)
 st.pyplot(fig5)
 st.markdown("---")
 st.markdown("**Note:** This dashboard provides basic technical analysis of maojr tech stocks using Python and Streamlit.")
-
