@@ -4,10 +4,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-# import glob
+import glob
 # import plotly.express as px
 
-individual_stocks_path = r"/Users/rubisc/workspace/data_analytics_real_world_projects/project_2_time_series_analysis/S&P_resources/individual_stocks_5yr/"
+individual_stocks_path = r"S&P_resources/individual_stocks_5yr/"
 
 company_list = [individual_stocks_path + "AAPL_data.csv", 
                 individual_stocks_path + "AMZN_data.csv",
@@ -19,6 +19,7 @@ all_data = pd.DataFrame()
 
 for file in company_list:
     current_df = pd.read_csv(file)
+    print(current_df)
     all_data = current_df.append(all_data, ignore_index=True)
     
 all_data['date'] = pd.to_datetime(all_data['date'])
