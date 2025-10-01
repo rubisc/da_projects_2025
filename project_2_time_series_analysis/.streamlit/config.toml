@@ -1,0 +1,6 @@
+# .streamlit/config.toml
+
+[server]
+# If the root S&P_resources folder has other important files, 
+# you can target the subfolder where the stock data is:
+folderWatchBlacklist = ["S&P_resources/individual_stocks_5yr/**"]
