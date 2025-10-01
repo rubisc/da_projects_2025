@@ -1,0 +1,17 @@
+name: streamlit_app_env
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  # Conda-preferred packages (often better compiled for performance)
+  - python=3.10  # Use a specific, common Python version (e.g., 3.9, 3.10, 3.11)
+  - pandas=1.4.4
+  - numpy=1.21.5
+  - matplotlib=3.5.2
+  - seaborn=0.11.2
+  
+  # Packages that might not be on conda-forge or are primarily pip-installed
+  - pip
+  - pip:
+    # Streamlit is often easier to install via pip
+    - streamlit==1.25.0
