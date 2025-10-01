@@ -4,8 +4,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import glob
-import plotly.express as px
+# import glob
+# import plotly.express as px
 
 individual_stocks_path = r"/Users/rubisc/workspace/data_analytics_real_world_projects/project_2_time_series_analysis/S&P_resources/individual_stocks_5yr/"
 
